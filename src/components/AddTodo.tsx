@@ -36,7 +36,7 @@ export const AddTodo = () => {
   };
 
   const getGroupName = (groupId: string | null) => {
-    if (groupId === null) return 'All Todos';
+    if (groupId === null) return ""; // no label when no group is selected
     return groups.find((g: Group) => g.id === groupId)?.name || 'Unknown';
   };
 
