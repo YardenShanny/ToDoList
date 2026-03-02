@@ -1,7 +1,6 @@
 import { TodoStore, useStore } from '../store';
 import { Todo } from '../types';
 
-
 export const BulkActionBar = () => {
   const selectedIds = useStore((s: TodoStore) => s.selectedTodoIds);
   const setSelectedIds = useStore((s: TodoStore) => s.setSelectedTodoIds);
@@ -10,7 +9,7 @@ export const BulkActionBar = () => {
   if (selectedIds.length === 0) return null;
 
   const handleBulkComplete = () => {
-    setTodos((oldTodos : Todo[]) =>
+    setTodos((oldTodos: Todo[]) =>
       oldTodos.map((todo) =>
         selectedIds.includes(todo.id) ? { ...todo, completed: true } : todo
       )
@@ -19,7 +18,7 @@ export const BulkActionBar = () => {
   };
 
   const handleBulkDelete = () => {
-    setTodos((oldTodos : Todo[]) => oldTodos.filter((todo) => !selectedIds.includes(todo.id)));
+    setTodos((oldTodos: Todo[]) => oldTodos.filter((todo) => !selectedIds.includes(todo.id)));
     setSelectedIds([]);
   };
 

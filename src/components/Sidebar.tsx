@@ -1,9 +1,7 @@
 import { TodoStore, useStore } from '../store';
-import { Group, Todo } from '../types';
 import { AddGroup } from './AddGroup';
 import { Trash2, CheckCircle2 } from 'lucide-react';
 import { Group, Todo } from '../types';
-
 
 export const Sidebar = () => {
   const activeGroup = useStore((s: TodoStore) => s.activeGroup);

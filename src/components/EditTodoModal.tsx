@@ -4,7 +4,6 @@ import { TodoStore, useStore } from '../store';
 import { Todo, Group } from '../types';
 import { X } from 'lucide-react';
 
-
 interface EditTodoModalProps {
   todo: Todo;
   isOpen: boolean;
@@ -75,7 +74,9 @@ export const EditTodoModal = ({
             </label>
             <select
               value={selectedGroupId || ''}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedGroupId(e.target.value || null)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setSelectedGroupId(e.target.value || null)
+              }
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">No Group (All)</option>
