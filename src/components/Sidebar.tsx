@@ -33,12 +33,12 @@ export const Sidebar = () => {
   };
 
   // Count todos per group
-  const getGroupTodoCount = (groupId: string) => {
+  const getGroupTodoCount = (groupId: string): number => {
     return todos.filter((todo: Todo) => todo.groupId === groupId).length;
   };
 
-  const getTotalTodos = () => todos.length;
-  const getCompletedCount = () => todos.filter((todo: Todo) => todo.completed).length;
+  const getTotalTodos = (): number => todos.length;
+  const getCompletedCount = (): number => todos.filter((todo: Todo) => todo.completed).length;
   return (
     <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen overflow-y-auto">
       {/* Header */}
