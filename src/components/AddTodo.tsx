@@ -18,6 +18,14 @@ export const AddTodo = () => {
     activeGroup,
   );
 
+  // keep the dropdown selection in sync with whatever filter is active
+  React.useEffect(() => {
+    setSelectedGroupId(activeGroup);
+    // if the user switches filters in the sidebar while the menu is open,
+    // close the dropdown so the UI stays in sync
+    setIsGroupDropdownOpen(false);
+  }, [activeGroup]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -36,7 +44,7 @@ export const AddTodo = () => {
   };
 
   const getGroupName = (groupId: string | null) => {
-    if (groupId === null) return ""; // no label when no group is selected
+    if (groupId === null) return '📋 All Todos'; // no label when no group is selected
     return groups.find((g: Group) => g.id === groupId)?.name || 'Unknown';
   };
 
@@ -64,7 +72,8 @@ export const AddTodo = () => {
             <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setSelectedGroupId(null);
                   setIsGroupDropdownOpen(false);
                 }}
@@ -76,7 +85,8 @@ export const AddTodo = () => {
                 <button
                   key={group.id}
                   type="button"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setSelectedGroupId(group.id);
                     setIsGroupDropdownOpen(false);
                   }}

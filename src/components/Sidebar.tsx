@@ -59,7 +59,9 @@ export const Sidebar = () => {
       {/* All Todos Filter */}
       <nav className="flex-1 p-4">
         <button
-          onClick={() => setActiveGroup(null)}
+          onClick={() => {
+            if (activeGroup !== null) setActiveGroup(null);
+          }}
           className={`w-full text-left px-4 py-2 rounded-lg transition-colors font-medium ${
             activeGroup === null
               ? 'bg-blue-100 text-blue-700'
@@ -88,7 +90,9 @@ export const Sidebar = () => {
                 }`}
               >
                 <button
-                  onClick={() => setActiveGroup(group.id)}
+                  onClick={() => {
+                    if (activeGroup !== group.id) setActiveGroup(group.id);
+                  }}
                   className="flex-1 text-left text-sm font-medium"
                 >
                   <span className="inline-block mr-2">📁</span>

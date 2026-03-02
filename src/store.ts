@@ -57,11 +57,16 @@ export const useStore = create<TodoStore>((set) => {
 });
 
 // derived selectors (convenience hooks)
-export const useFilteredTodos = (): Todo[] =>
-  useStore((s) => {
-    if (s.activeGroup === null) return s.todos;
-    return s.todos.filter((t: Todo) => t.groupId === s.activeGroup);
-  });
+import { useMemo } from 'react';
+
+export const useFilteredTodos = (): Todo[] => {
+  const todos = useStore((s) => s.todos);
+  const activeGroup = useStore((s) => s.activeGroup);
+  return useMemo(() => {
+    if (activeGroup === null) return todos;
+    return todos.filter((t: Todo) => t.groupId === activeGroup);
+  }, [todos, activeGroup]);
+};
 
 export const useActiveGroupName = (): string =>
   useStore((s) => {
