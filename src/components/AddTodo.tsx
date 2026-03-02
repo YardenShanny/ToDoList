@@ -1,17 +1,22 @@
-import { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { todoListState, activeGroupFilterState, groupListState } from '../recoil/atoms';
-import { v4 as uuidv4 } from 'uuid';
-import { Plus, ChevronDown } from 'lucide-react';
-import { Group } from '../types';
+import React from "react";
+import { useState } from "react";
+import { useStore } from "../store";
+import { v4 as uuidv4 } from "uuid";
+import { Plus, ChevronDown } from "lucide-react";
+import { Group } from "../types";
 
 export const AddTodo = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isGroupDropdownOpen, setIsGroupDropdownOpen] = useState(false);
-  const [todos, setTodos] = useRecoilState(todoListState);
-  const activeGroup = useRecoilValue(activeGroupFilterState);
-  const groups = useRecoilValue(groupListState);
-  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(activeGroup);
+
+  const todos = useStore((s) => s.todos);
+  const setTodos = useStore((s) => s.setTodos);
+  const activeGroup = useStore((s) => s.activeGroup);
+  const groups = useStore((s) => s.groups);
+
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(
+    activeGroup,
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,13 +31,13 @@ export const AddTodo = () => {
         groupId: selectedGroupId,
       },
     ]);
-    setInput('');
+    setInput("");
     setIsGroupDropdownOpen(false);
   };
 
   const getGroupName = (groupId: string | null) => {
-    if (groupId === null) return 'All Todos';
-    return groups.find((g: Group) => g.id === groupId)?.name || 'Unknown';
+    if (groupId === null) return "All Todos";
+    return groups.find((g: Group) => g.id === groupId)?.name || "Unknown";
   };
 
   return (
@@ -41,11 +46,12 @@ export const AddTodo = () => {
         <input
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setInput(e.target.value)
+          }
           placeholder="Add a new todo..."
           className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-
         {/* Group Selector Dropdown */}
         <div className="relative">
           <button
@@ -53,7 +59,9 @@ export const AddTodo = () => {
             onClick={() => setIsGroupDropdownOpen(!isGroupDropdownOpen)}
             className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <span className="text-sm font-medium">{getGroupName(selectedGroupId)}</span>
+            <span className="text-sm font-medium">
+              {getGroupName(selectedGroupId)}
+            </span>
             <ChevronDown className="w-4 h-4" />
           </button>
 

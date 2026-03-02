@@ -1,13 +1,14 @@
-import { useRecoilValue } from 'recoil';
 import { TodoItem } from './components/TodoItem';
 import { BulkActionBar } from './components/BulkActionBar';
 import { Sidebar } from './components/Sidebar';
 import { AddTodo } from './components/AddTodo';
-import { filteredTodosState, activeGroupNameState } from './recoil/selectors';
+import { useFilteredTodos, useActiveGroupName } from './store';
+import { Todo } from './types';
+
 
 function App() {
-  const filteredTodos = useRecoilValue(filteredTodosState);
-  const activeGroupName = useRecoilValue(activeGroupNameState);
+  const filteredTodos = useFilteredTodos();
+  const activeGroupName = useActiveGroupName();
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans text-gray-900">
@@ -24,7 +25,7 @@ function App() {
         <AddTodo />
 
         <div className="space-y-2 mb-20">
-          {filteredTodos.map((todo) => (
+          {filteredTodos.map((todo: Todo) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}
           {filteredTodos.length === 0 && (

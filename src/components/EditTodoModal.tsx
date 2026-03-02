@@ -1,8 +1,9 @@
+import React from 'react';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { groupListState } from '../recoil/atoms';
+import { TodoStore, useStore } from '../store';
 import { Todo, Group } from '../types';
 import { X } from 'lucide-react';
+
 
 interface EditTodoModalProps {
   todo: Todo;
@@ -17,7 +18,7 @@ export const EditTodoModal = ({
   onClose,
   onSave,
 }: EditTodoModalProps) => {
-  const groups = useRecoilValue(groupListState);
+  const groups = useStore((s: TodoStore) => s.groups);
   const [text, setText] = useState(todo.text);
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(
     todo.groupId
@@ -60,7 +61,7 @@ export const EditTodoModal = ({
             <input
               type="text"
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter todo text..."
               autoFocus
@@ -74,9 +75,7 @@ export const EditTodoModal = ({
             </label>
             <select
               value={selectedGroupId || ''}
-              onChange={(e) =>
-                setSelectedGroupId(e.target.value || null)
-              }
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedGroupId(e.target.value || null)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">No Group (All)</option>
