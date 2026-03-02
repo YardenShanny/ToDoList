@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { selectedTodoIdsState, todoListState } from '../recoil/atoms';
 import { Todo } from '../types';
-import { Trash2, CheckCircle, Circle } from 'lucide-react';
+import { Trash2, CheckCircle, Circle, Edit2 } from 'lucide-react';
+import { EditTodoModal } from './EditTodoModal';
 
 interface TodoItemProps {
   todo: Todo;
@@ -10,6 +12,7 @@ interface TodoItemProps {
 export const TodoItem = ({ todo }: TodoItemProps) => {
   const [selectedIds, setSelectedIds] = useRecoilState(selectedTodoIdsState);
   const [todos, setTodos] = useRecoilState(todoListState);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const isSelected = selectedIds.includes(todo.id);
 
@@ -29,6 +32,12 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
 
   const handleDelete = () => {
     setTodos((prev) => prev.filter((t) => t.id !== todo.id));
+  };
+
+  const handleSaveEdit = (updatedTodo: Todo) => {
+    setTodos((prev) =>
+      prev.map((t) => (t.id === todo.id ? updatedTodo : t))
+    );
   };
 
   return (
@@ -76,11 +85,27 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       </div>
 
       <button
+        onClick={() => setIsEditOpen(true)}
+        className="flex-shrink-0 text-gray-400 hover:text-blue-600 transition-colors focus:outline-none"
+        title="Edit todo"
+      >
+        <Edit2 className="w-5 h-5" />
+      </button>
+
+      <button
         onClick={handleDelete}
         className="flex-shrink-0 text-gray-400 hover:text-red-600 transition-colors focus:outline-none"
+        title="Delete todo"
       >
         <Trash2 className="w-5 h-5" />
       </button>
+
+      <EditTodoModal
+        todo={todo}
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        onSave={handleSaveEdit}
+      />
     </div>
   );
 };
