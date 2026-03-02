@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useStore } from '../store';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,7 +19,7 @@ export const AddTodo = () => {
   );
 
   // keep the dropdown selection in sync with whatever filter is active
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedGroupId(activeGroup);
     // if the user switches filters in the sidebar while the menu is open,
     // close the dropdown so the UI stays in sync
