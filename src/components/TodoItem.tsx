@@ -23,7 +23,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
   };
 
   const handleToggleComplete = () => {
-    setTodos((prev) =>
+    setTodos((prev: Todo[]) =>
       prev.map((t) =>
         t.id === todo.id ? { ...t, completed: !t.completed } : t
       )
@@ -31,11 +31,11 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
   };
 
   const handleDelete = () => {
-    setTodos((prev) => prev.filter((t) => t.id !== todo.id));
+    setTodos((prev: Todo[]) => prev.filter((t) => t.id !== todo.id));
   };
 
   const handleSaveEdit = (updatedTodo: Todo) => {
-    setTodos((prev) =>
+    setTodos((prev: Todo[]) =>
       prev.map((t) => (t.id === todo.id ? updatedTodo : t))
     );
   };

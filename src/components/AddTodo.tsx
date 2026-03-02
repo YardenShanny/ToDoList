@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { todoListState, activeGroupFilterState, groupListState } from '../recoil/atoms';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,7 +31,7 @@ export const AddTodo = () => {
   };
 
   const getGroupName = (groupId: string | null) => {
-    if (groupId === null) return 'All Todos';
+    if (groupId === null) return ""; // no label when no group is selected
     return groups.find((g: Group) => g.id === groupId)?.name || 'Unknown';
   };
 
@@ -41,19 +41,17 @@ export const AddTodo = () => {
         <input
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
           placeholder="Add a new todo..."
           className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-
         {/* Group Selector Dropdown */}
         <div className="relative">
           <button
             type="button"
             onClick={() => setIsGroupDropdownOpen(!isGroupDropdownOpen)}
             className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <span className="text-sm font-medium">{getGroupName(selectedGroupId)}</span>
+          ><span className="text-sm font-medium">{getGroupName(selectedGroupId)}</span>
             <ChevronDown className="w-4 h-4" />
           </button>
 

@@ -6,6 +6,7 @@ import {
 } from '../recoil/atoms';
 import { AddGroup } from './AddGroup';
 import { Trash2, CheckCircle2 } from 'lucide-react';
+import { Group, Todo } from '../types';
 
 export const Sidebar = () => {
   const [activeGroup, setActiveGroup] = useRecoilState(activeGroupFilterState);
@@ -17,14 +18,14 @@ export const Sidebar = () => {
     // setTodos((prev) => prev.filter((todo) => todo.groupId !== groupId));
     
     // Option 2: Unlinking - removes todos from group but keeps them in "All"
-    setTodos((prev) =>
-      prev.map((todo) =>
+    setTodos((prev : Todo[]) =>
+      prev.map((todo: Todo) =>
         todo.groupId === groupId ? { ...todo, groupId: null } : todo
       )
     );
 
     // Delete the group
-    setGroups((prev) => prev.filter((g) => g.id !== groupId));
+    setGroups((prev: Group[]) => prev.filter((g) => g.id !== groupId));
 
     // If the deleted group was active, switch to "All"
     if (activeGroup === groupId) {
@@ -34,11 +35,11 @@ export const Sidebar = () => {
 
   // Count todos per group
   const getGroupTodoCount = (groupId: string) => {
-    return todos.filter((todo) => todo.groupId === groupId).length;
+    return todos.filter((todo: Todo) => todo.groupId === groupId).length;
   };
 
   const getTotalTodos = () => todos.length;
-  const getCompletedCount = () => todos.filter((todo) => todo.completed).length;
+  const getCompletedCount = () => todos.filter((todo: Todo) => todo.completed).length;
 
   return (
     <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen overflow-y-auto">
@@ -80,7 +81,7 @@ export const Sidebar = () => {
           <AddGroup />
 
           <div className="space-y-1">
-            {groups.map((group) => (
+            {groups.map((group: Group) => (
               <div
                 key={group.id}
                 className={`flex items-center justify-between px-4 py-2 rounded-lg transition-colors ${

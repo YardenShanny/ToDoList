@@ -4,6 +4,7 @@ import { BulkActionBar } from './components/BulkActionBar';
 import { Sidebar } from './components/Sidebar';
 import { AddTodo } from './components/AddTodo';
 import { filteredTodosState, activeGroupNameState } from './recoil/selectors';
+import { Todo } from './types';
 
 function App() {
   const filteredTodos = useRecoilValue(filteredTodosState);
@@ -24,7 +25,7 @@ function App() {
         <AddTodo />
 
         <div className="space-y-2 mb-20">
-          {filteredTodos.map((todo) => (
+          {filteredTodos.map((todo: Todo) => (
             <TodoItem key={todo.id} todo={todo} />
           ))}
           {filteredTodos.length === 0 && (

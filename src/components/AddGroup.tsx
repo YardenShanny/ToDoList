@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { groupListState } from '../recoil/atoms';
@@ -28,7 +29,7 @@ export const AddGroup = () => {
         <input
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
           placeholder="New group..."
           className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />

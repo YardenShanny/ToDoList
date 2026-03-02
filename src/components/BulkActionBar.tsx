@@ -1,5 +1,6 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { selectedTodoIdsState, todoListState } from '../recoil/atoms';
+import { Todo } from '../types';
 
 export const BulkActionBar = () => {
   const [selectedIds, setSelectedIds] = useRecoilState(selectedTodoIdsState);
@@ -8,7 +9,7 @@ export const BulkActionBar = () => {
   if (selectedIds.length === 0) return null;
 
   const handleBulkComplete = () => {
-    setTodos((oldTodos) =>
+    setTodos((oldTodos: Todo[]) =>
       oldTodos.map((todo) =>
         selectedIds.includes(todo.id) ? { ...todo, completed: true } : todo
       )
@@ -17,7 +18,7 @@ export const BulkActionBar = () => {
   };
 
   const handleBulkDelete = () => {
-    setTodos((oldTodos) => oldTodos.filter((todo) => !selectedIds.includes(todo.id)));
+    setTodos((oldTodos: Todo[]) => oldTodos.filter((todo) => !selectedIds.includes(todo.id)));
     setSelectedIds([]);
   };
 
