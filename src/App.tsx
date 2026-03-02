@@ -5,7 +5,6 @@ import { AddTodo } from './components/AddTodo';
 import { useFilteredTodos, useActiveGroupName } from './store';
 import { Todo } from './types';
 
-
 function App() {
   const filteredTodos = useFilteredTodos();
   const activeGroupName = useActiveGroupName();

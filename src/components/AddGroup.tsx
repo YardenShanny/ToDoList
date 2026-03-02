@@ -4,7 +4,6 @@ import { useStore } from '../store';
 import { v4 as uuidv4 } from 'uuid';
 import { Plus } from 'lucide-react';
 
-
 export const AddGroup = () => {
   const [input, setInput] = useState('');
   const setGroups = useStore((s) => s.setGroups);

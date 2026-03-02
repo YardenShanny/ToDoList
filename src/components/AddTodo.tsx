@@ -1,12 +1,12 @@
-import React from "react";
-import { useState } from "react";
-import { useStore } from "../store";
-import { v4 as uuidv4 } from "uuid";
-import { Plus, ChevronDown } from "lucide-react";
-import { Group } from "../types";
+import React from 'react';
+import { useState } from 'react';
+import { useStore } from '../store';
+import { v4 as uuidv4 } from 'uuid';
+import { Plus, ChevronDown } from 'lucide-react';
+import { Group } from '../types';
 
 export const AddTodo = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [isGroupDropdownOpen, setIsGroupDropdownOpen] = useState(false);
 
   const todos = useStore((s) => s.todos);
@@ -31,13 +31,13 @@ export const AddTodo = () => {
         groupId: selectedGroupId,
       },
     ]);
-    setInput("");
+    setInput('');
     setIsGroupDropdownOpen(false);
   };
 
   const getGroupName = (groupId: string | null) => {
-    if (groupId === null) return "All Todos";
-    return groups.find((g: Group) => g.id === groupId)?.name || "Unknown";
+    if (groupId === null) return 'All Todos';
+    return groups.find((g: Group) => g.id === groupId)?.name || 'Unknown';
   };
 
   return (
