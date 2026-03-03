@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { todoListState, activeGroupFilterState, groupListState } from '../recoil/atoms';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { useStore } from '../store';
 import { v4 as uuidv4 } from 'uuid';
 import { Plus, ChevronDown } from 'lucide-react';
 import { Group } from '../types';
@@ -8,10 +8,23 @@ import { Group } from '../types';
 export const AddTodo = () => {
   const [input, setInput] = useState('');
   const [isGroupDropdownOpen, setIsGroupDropdownOpen] = useState(false);
-  const [todos, setTodos] = useRecoilState(todoListState);
-  const activeGroup = useRecoilValue(activeGroupFilterState);
-  const groups = useRecoilValue(groupListState);
-  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(activeGroup);
+
+  const todos = useStore((s) => s.todos);
+  const setTodos = useStore((s) => s.setTodos);
+  const activeGroup = useStore((s) => s.activeGroup);
+  const groups = useStore((s) => s.groups);
+
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(
+    activeGroup,
+  );
+
+  // keep the dropdown selection in sync with whatever filter is active
+  useEffect(() => {
+    setSelectedGroupId(activeGroup);
+    // if the user switches filters in the sidebar while the menu is open,
+    // close the dropdown so the UI stays in sync
+    setIsGroupDropdownOpen(false);
+  }, [activeGroup]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +44,7 @@ export const AddTodo = () => {
   };
 
   const getGroupName = (groupId: string | null) => {
-    if (groupId === null) return ""; // no label when no group is selected
+    if (groupId === null) return '📋 All Todos'; // no label when no group is selected
     return groups.find((g: Group) => g.id === groupId)?.name || 'Unknown';
   };
 
@@ -59,7 +72,8 @@ export const AddTodo = () => {
             <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setSelectedGroupId(null);
                   setIsGroupDropdownOpen(false);
                 }}
@@ -71,7 +85,8 @@ export const AddTodo = () => {
                 <button
                   key={group.id}
                   type="button"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setSelectedGroupId(group.id);
                     setIsGroupDropdownOpen(false);
                   }}

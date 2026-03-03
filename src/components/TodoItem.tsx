@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { selectedTodoIdsState, todoListState } from '../recoil/atoms';
+import { TodoStore, useStore } from '../store';
 import { Todo } from '../types';
 import { Trash2, CheckCircle, Circle, Edit2 } from 'lucide-react';
 import { EditTodoModal } from './EditTodoModal';
@@ -10,16 +9,16 @@ interface TodoItemProps {
 }
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const [selectedIds, setSelectedIds] = useRecoilState(selectedTodoIdsState);
-  const [todos, setTodos] = useRecoilState(todoListState);
+  const selectedIds = useStore((s: TodoStore) => s.selectedTodoIds);
+  const setSelectedIds = useStore((s: TodoStore) => s.setSelectedTodoIds);
+  const setTodos = useStore((s: TodoStore) => s.setTodos);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const isSelected = selectedIds.includes(todo.id);
 
   const handleToggleSelect = () => {
-    setSelectedIds((prev) =>
-      isSelected ? prev.filter((id) => id !== todo.id) : [...prev, todo.id]
-    );
+    const newSelectedIds: string[] = isSelected ? selectedIds.filter((id) => id !== todo.id) : [...selectedIds, todo.id];
+    setSelectedIds(newSelectedIds);
   };
 
   const handleToggleComplete = () => {

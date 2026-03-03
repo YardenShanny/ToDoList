@@ -1,13 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { groupListState } from '../recoil/atoms';
+import { useStore } from '../store';
 import { v4 as uuidv4 } from 'uuid';
 import { Plus } from 'lucide-react';
 
 export const AddGroup = () => {
   const [input, setInput] = useState('');
-  const setGroups = useSetRecoilState(groupListState);
+  const setGroups = useStore((s) => s.setGroups);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { groupListState } from '../recoil/atoms';
+import { TodoStore, useStore } from '../store';
 import { Todo, Group } from '../types';
 import { X } from 'lucide-react';
 
@@ -18,7 +17,7 @@ export const EditTodoModal = ({
   onClose,
   onSave,
 }: EditTodoModalProps) => {
-  const groups = useRecoilValue(groupListState);
+  const groups = useStore((s: TodoStore) => s.groups);
   const [text, setText] = useState(todo.text);
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(
     todo.groupId
